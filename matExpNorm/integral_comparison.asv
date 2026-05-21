@@ -1,0 +1,24 @@
+A = [-1 5; 0 -2];
+
+tMax = 50;
+ts = 0 : .01: tMax;
+eAs = zeros(size(ts));
+for i = 1:length(ts)
+    t = ts(i);
+    eAs(i) = norm(expm(t.*A));
+end
+
+c = 0;
+%from goldman supplemental materials
+%EPSILON = smallest epsilon for which sigma_eps touches x = 0
+
+eps = calc_min_eps(A); 
+% disp("eps: " + eps)
+M = max(eAs);
+t_star = (1-c)/(eps*M);
+
+tsReal = 0:0.01:t_star;
+eAint = trapz(tsReal,eAs);
+
+N_ths = 
+thetas = 0:2*pi/N_ths:
