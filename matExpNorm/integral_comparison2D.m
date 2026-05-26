@@ -1,4 +1,4 @@
-A = [-1 5; 0 -2];
+% A = [-1 5; 0 -2];
 % dim = 2;
 % A = randn(dim); 
 % [Q, ~] = qr(A);       % Q is a random orthogonal/unitary matrix
@@ -10,6 +10,8 @@ A = [-1 5; 0 -2];
 %     A = A - (mReal + 10^-2)*eye(dim);
 % end
 
+function [thetas,eAvInts] = integral_comparison2D(A)
+
 tMax = 50;
 ts = 0 : .01: tMax;
 th_ts = zeros(size(ts));
@@ -17,7 +19,7 @@ eAs = zeros(size(ts));
 for i = 1:length(ts)
     t = ts(i);
     eAs(i) = norm(expm(t.*A));
-    [u,s,v] = svd(expm(t.*A));
+    [~,~,v] = svd(expm(t.*A));
     vMax = v(:,1);
     th_ts(i) = atan(vMax(2)/vMax(1)); %EXPLICITLY FOR 2D
 end
@@ -61,5 +63,7 @@ plot(thetas,eAvInts);
 th_ts = mod(th_ts,pi);
 figure(3);
 plot(ts(1:round(length(ts)/2)),th_ts(1:round(length(ts)/2)));
+
+end
 
 
