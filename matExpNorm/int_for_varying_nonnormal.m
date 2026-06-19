@@ -1,14 +1,14 @@
 A = [-1 5; 0 -2];
-dim = 2;
-A = randn(dim); 
-[Q, ~] = qr(A);       % Q is a random orthogonal/unitary matrix
-R = triu(randn(dim));
-A = Q*R;
-mReal = max(real(eig(A)));
-if (mReal > 0)
-    % A = A*(1-10^(-2))/mReal;
-    A = A - (mReal + 10^-2)*eye(dim);
-end
+% dim = 2;
+% A = randn(dim); 
+% [Q, ~] = qr(A);       % Q is a random orthogonal/unitary matrix
+% R = triu(randn(dim));
+% A = Q*R;
+% mReal = max(real(eig(A)));
+% if (mReal > 0)
+%     % A = A*(1-10^(-2))/mReal;
+%     A = A - (mReal + 10^-2)*eye(dim);
+% end
 
 [thetas,eAvInts] = integral_comparison2D(A);
 

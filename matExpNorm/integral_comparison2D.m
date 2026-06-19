@@ -33,6 +33,7 @@ disp("eps: " + eps)
 M = max(eAs);
 t_star = (1-c)/(eps*M);
 
+
 tsReal = 0:0.01:t_star;
 
 eAsReal = zeros(size(tsReal));
@@ -61,8 +62,8 @@ figure(2);
 plot(thetas,eAvInts);
 
 th_ts = mod(th_ts,pi);
-figure(3);
-plot(ts(1:round(length(ts)/2)),th_ts(1:round(length(ts)/2)));
+% figure(3);
+% plot(ts(1:round(length(ts)/2)),th_ts(1:round(length(ts)/2)));
 
 end
 
