@@ -522,3 +522,48 @@ def henrici_departure(A):
     fro_norm_sq = np.linalg.norm(A, ord="fro") ** 2
     eig_norm_sq = np.sum(np.abs(linalg.eigvals(A)) ** 2)
     return np.sqrt(fro_norm_sq - eig_norm_sq.real) / np.linalg.norm(A, ord="fro")
+
+
+def g_sweep(W_no_inh, low, upp):
+    """ finds the greatest g such that the maximum real part of the eigenvalues of W is less than 1, 
+    then returns 90% of that g value.
+
+    input: 
+    - W_no_inh: connectivity matrix without inhibition
+    - low: lower bound for g search
+    - upp: upper bound for g search
+
+    - low: lower bound for g search
+    - upp: upper bound for g search
+
+    output
+    - g: the greatest g such that the maximum real part of the eigenvalues of W is less than 1
+    """
+
+    Whigh = mu.observed_plus_random_connectivity_matrix_random_inh(W_no_inh, r_inhibitory=r_inhibitory, g=upp,
+                                                connectivity_proba=connectivity_proba, random_seed=random_seed,
+                                                inh_exc_balance=inh_exc_balance)
+    eigenvalues, eigenvectors = LA.eig(Whigh)
+    max_eval_upp = max([ele.real for ele in eigenvalues])
+
+    if max_eval_upp < 1:
+        print("Upper bound is too low, increase upper bound")
+        return None
+
+    g = 0
+
+    while upp - low > 1e-5:
+        mid = (low + upp) / 2
+        print(mid)
+        W = mu.observed_plus_random_connectivity_matrix_random_inh(W_no_inh, r_inhibitory=r_inhibitory, g=mid,
+                                                connectivity_proba=connectivity_proba, random_seed=random_seed,
+                                                inh_exc_balance=inh_exc_balance)
+        eigenvalues, eigenvectors = LA.eig(W)
+        max_eval = max([ele.real for ele in eigenvalues])
+        if max_eval < 1:
+            low = mid
+            g = mid
+        else:
+            upp = mid
+
+    return 0.9 * g
